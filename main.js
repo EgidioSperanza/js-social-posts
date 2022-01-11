@@ -1,29 +1,29 @@
 const containerPosts = document.getElementById("container");
 let likedPosts = [];
-let idPost = 1;
+let idPost = 0;
 const posts = [
   {
-    id: idPost++,
+    id: (idPost += 1),
     icon: "https://unsplash.it/300/300?image=15",
     name: "Phil Mangione",
-    date: `10-12-2021`,
+    date: `10-30-2021`,
     text:
       "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
     image: "https://unsplash.it/600/300?image=171",
     likes: 80,
   },
   {
-    id: idPost++,
+    id: (idPost += 1),
     icon: "https://unsplash.it/300/300?image=12",
     name: "Marco Rossi",
-    date: `11-11-2021`,
+    date: `11-20-2021`,
     text:
       "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
     image: "https://unsplash.it/600/300?image=170",
     likes: 180,
   },
   {
-    id: idPost++,
+    id: (idPost += 1),
     icon: "https://unsplash.it/300/300?image=10",
     name: "Elisa Verde",
     date: `11-11-2021`,
@@ -31,7 +31,7 @@ const posts = [
       "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
     image: "https://unsplash.it/600/300?image=180",
     likes: 99,
-  }
+  },
 ];
 
 function displayPosts(container, postsList) {
@@ -68,31 +68,32 @@ function displayPosts(container, postsList) {
         </div>            
     </div>
         `;
-        const likeBtn = document.querySelector(`[data-postid='${postsList[i].id}']`);
-        const likeCount = document.getElementById(`like-counter-${postsList[i].id}`);
+    const likeBtn = document.querySelector(
+      `[data-postid='${postsList[i].id}']`
+    );
+    const likeCount = document.getElementById(
+      `like-counter-${postsList[i].id}`
+    );
 
-        clickLikes(likeBtn, postsList[i],likeCount );
+    clickLikes(likeBtn, postsList[i], likeCount);
   }
-
 }
 
-function clickLikes(btn, obj, nlikes){
-    btn.addEventListener("click", function () {
-        if (btn.classList.contains("like-button--liked")) {
-            btn.classList.remove("like-button--liked");
-            obj.likes--;
-          likedPosts.splice(obj,1);
-          nlikes.innerHTML=`${obj.likes}`;
-          
-        } else {
-            btn.classList.add("like-button--liked");
-            obj.likes++;
-            nlikes.innerHTML=`${obj.likes}`;
-          likedPosts.push(obj);
-      }
-      console.log(btn)
-      });
-
+function clickLikes(btn, obj, nlikes) {
+  btn.addEventListener("click", function () {
+    if (btn.classList.contains("like-button--liked")) {
+      btn.classList.remove("like-button--liked");
+      obj.likes--;
+      likedPosts.splice(obj, 1);
+      nlikes.innerHTML = `${obj.likes}`;
+    } else {
+      btn.classList.add("like-button--liked");
+      obj.likes++;
+      nlikes.innerHTML = `${obj.likes}`;
+      likedPosts.push(obj);
+    }
+    console.log(btn);//DEBUG
+  });
 }
 
 displayPosts(containerPosts, posts);
