@@ -6,7 +6,7 @@ const posts = [
     id: (idPost += 1),
     icon: "https://unsplash.it/300/300?image=15",
     name: "Phil Mangione",
-    date: `10-30-2021`,
+    date: [01, 10, 2022],
     text:
       "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
     image: "https://unsplash.it/600/300?image=171",
@@ -16,7 +16,7 @@ const posts = [
     id: (idPost += 1),
     icon: "https://unsplash.it/300/300?image=12",
     name: "Marco Rossi",
-    date: `11-20-2021`,
+    date: [12, 18, 2021],
     text:
       "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
     image: "https://unsplash.it/600/300?image=170",
@@ -26,18 +26,20 @@ const posts = [
     id: (idPost += 1),
     icon: "https://unsplash.it/300/300?image=10",
     name: "Elisa Verde",
-    date: `11-11-2021`,
+    date: [11, 28, 2021],
     text:
       "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
     image: "https://unsplash.it/600/300?image=180",
     likes: 99,
-  },
+  }
 ];
 
 function displayPosts(container, postsList) {
   for (let i = 0; i < postsList.length; i++) {
+    let [month, day, year] = postsList[i].date;
+    postsList[i].date = [day, month, year];
     container.innerHTML += `
-        <div class="post">
+        <div class="post" name="#${postsList[i].id}">
         <div class="post__header">
             <div class="post-meta">                    
                 <div class="post-meta__icon">
@@ -56,7 +58,7 @@ function displayPosts(container, postsList) {
         <div class="post__footer">
             <div class="likes js-likes">
                 <div class="likes__cta">
-                    <a class="like-button  js-like-button" href="#" data-postid="${postsList[i].id}">
+                    <a class="like-button  js-like-button" href="#${postsList[i].id}" data-postid="${postsList[i].id}">
                         <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                         <span class="like-button__label">Mi Piace</span>
                     </a>
@@ -92,8 +94,12 @@ function clickLikes(btn, obj, nlikes) {
       nlikes.innerHTML = `${obj.likes}`;
       likedPosts.push(obj);
     }
-    console.log(btn);//DEBUG
+    console.log(btn); //DEBUG
   });
 }
 
+function dateConverter(americanDate) {
+  let [month, day, year] = americanDate;
+  americanDate = [day, month, year];
+}
 displayPosts(containerPosts, posts);
