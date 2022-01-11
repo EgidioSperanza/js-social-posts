@@ -3,7 +3,7 @@ let likedPosts = [];
 let idPost = 0;
 const posts = [
   {
-    id: (idPost += 1),
+    id:++idPost,
     icon: "https://unsplash.it/300/300?image=15",
     name: "Phil Mangione",
     date: [01, 10, 2022],
@@ -13,7 +13,7 @@ const posts = [
     likes: 80,
   },
   {
-    id: (idPost += 1),
+    id: ++idPost,
     icon: "https://unsplash.it/300/300?image=12",
     name: "Marco Rossi",
     date: [12, 18, 2021],
@@ -23,7 +23,7 @@ const posts = [
     likes: 180,
   },
   {
-    id: (idPost += 1),
+    id: ++idPost,
     icon: "https://unsplash.it/300/300?image=10",
     name: "Elisa Verde",
     date: [11, 28, 2021],
