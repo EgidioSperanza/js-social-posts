@@ -1,9 +1,11 @@
 const containerPosts = document.getElementById("container");
 let likedPosts = [];
 let idPost = 0;
+let avatarAuthor;
+
 const posts = [
   {
-    id:++idPost,
+    id: ++idPost,
     icon: "https://unsplash.it/300/300?image=15",
     name: "Phil Mangione",
     date: [01, 10, 2022],
@@ -14,7 +16,7 @@ const posts = [
   },
   {
     id: ++idPost,
-    icon: "https://unsplash.it/300/300?image=12",
+    icon: null,
     name: "Marco Rossi",
     date: [12, 18, 2021],
     text:
@@ -31,19 +33,30 @@ const posts = [
       "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
     image: "https://unsplash.it/600/300?image=180",
     likes: 99,
-  }
+  },
 ];
 
 function displayPosts(container, postsList) {
   for (let i = 0; i < postsList.length; i++) {
     let [month, day, year] = postsList[i].date;
     postsList[i].date = [day, month, year];
+    if (postsList[i].icon === null) {
+      let initials = postsList[i].name.match(/\b\w/g) || [];
+      initials = (
+        (initials.shift() || "") + (initials.pop() || "")
+      ).toUpperCase();
+      postsList[i].icon = initials;
+      avatarAuthor = `<p class="profile-pic">${initials}</p>`;
+    } else {
+      avatarAuthor = `<img class="profile-pic" src=${postsList[i].icon} alt=${postsList[i].name}>`;
+    }
+
     container.innerHTML += `
         <div class="post" name="#${postsList[i].id}">
         <div class="post__header">
             <div class="post-meta">                    
                 <div class="post-meta__icon">
-                    <img class="profile-pic" src=${postsList[i].icon} alt=${postsList[i].name}>                    
+                    ${avatarAuthor}                   
                 </div>
                 <div class="post-meta__data">
                     <div class="post-meta__author">${postsList[i].name}</div>
@@ -58,7 +71,7 @@ function displayPosts(container, postsList) {
         <div class="post__footer">
             <div class="likes js-likes">
                 <div class="likes__cta">
-                    <a class="like-button  js-like-button" href="#${postsList[i].id}" data-postid="${postsList[i].id}">
+                    <a class="like-button  js-like-button" href="#${postsList[i].id}" id="${postsList[i].id}" data-postid="${postsList[i].id}">
                         <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                         <span class="like-button__label">Mi Piace</span>
                     </a>
@@ -70,9 +83,9 @@ function displayPosts(container, postsList) {
         </div>            
     </div>
         `;
-    const likeBtn = document.querySelector(
-      `[data-postid='${postsList[i].id}']`
-    );
+  }
+  for (let i = 0; i < postsList.length; i++) {
+    const likeBtn = document.getElementById(`${postsList[i].id}`);
     const likeCount = document.getElementById(
       `like-counter-${postsList[i].id}`
     );
@@ -82,6 +95,7 @@ function displayPosts(container, postsList) {
 }
 
 function clickLikes(btn, obj, nLikes) {
+  //   console.log(btn); //DEBUG
   btn.addEventListener("click", function () {
     if (btn.classList.contains("like-button--liked")) {
       btn.classList.remove("like-button--liked");
@@ -94,7 +108,7 @@ function clickLikes(btn, obj, nLikes) {
       nLikes.innerHTML = `${obj.likes}`;
       likedPosts.push(obj);
     }
-    console.log(btn); //DEBUG
+    // console.log(btn); //DEBUG
   });
 }
 
