@@ -81,17 +81,17 @@ function displayPosts(container, postsList) {
   }
 }
 
-function clickLikes(btn, obj, nlikes) {
+function clickLikes(btn, obj, nLikes) {
   btn.addEventListener("click", function () {
     if (btn.classList.contains("like-button--liked")) {
       btn.classList.remove("like-button--liked");
       obj.likes--;
       likedPosts.splice(obj, 1);
-      nlikes.innerHTML = `${obj.likes}`;
+      nLikes.innerHTML = `${obj.likes}`;
     } else {
       btn.classList.add("like-button--liked");
       obj.likes++;
-      nlikes.innerHTML = `${obj.likes}`;
+      nLikes.innerHTML = `${obj.likes}`;
       likedPosts.push(obj);
     }
     console.log(btn); //DEBUG
