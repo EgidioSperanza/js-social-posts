@@ -50,7 +50,6 @@ function displayPosts(container, postsList) {
     } else {
       avatarAuthor = `<img class="profile-pic" src=${postsList[i].icon} alt=${postsList[i].name}>`;
     }
-
     container.innerHTML += `
         <div class="post" name="#${postsList[i].id}">
         <div class="post__header">
