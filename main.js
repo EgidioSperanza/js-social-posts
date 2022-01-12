@@ -51,7 +51,7 @@ function displayPosts(container, postsList) {
       avatarAuthor = `<img class="profile-pic" src=${postsList[i].icon} alt=${postsList[i].name}>`;
     }
     container.innerHTML += `
-        <div class="post" name="#${postsList[i].id}">
+        <div class="post">
         <div class="post__header">
             <div class="post-meta">                    
                 <div class="post-meta__icon">
@@ -70,7 +70,7 @@ function displayPosts(container, postsList) {
         <div class="post__footer">
             <div class="likes js-likes">
                 <div class="likes__cta">
-                    <a class="like-button  js-like-button" href="#${postsList[i].id}" id="${postsList[i].id}" data-postid="${postsList[i].id}">
+                    <a class="like-button  js-like-button" href="#" id="${postsList[i].id}" data-postid="${postsList[i].id}">
                         <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                         <span class="like-button__label">Mi Piace</span>
                     </a>
@@ -95,7 +95,7 @@ function displayPosts(container, postsList) {
 
 function clickLikes(btn, obj, nLikes) {
   //   console.log(btn); //DEBUG
-  btn.addEventListener("click", function () {
+  btn.addEventListener("click", function (e) {
     if (btn.classList.contains("like-button--liked")) {
       btn.classList.remove("like-button--liked");
       obj.likes--;
@@ -108,7 +108,9 @@ function clickLikes(btn, obj, nLikes) {
       likedPosts.push(obj);
     }
     // console.log(btn); //DEBUG
-  });
+    e.preventDefault();
+    return false;
+    }, false);
 }
 
 function dateConverter(americanDate) {
