@@ -33,10 +33,21 @@ const posts = [
     image: "https://unsplash.it/600/300?image=180",
     likes: 99,
   },
+  {
+    id: ++idPost,
+    icon: null,
+    name: "Carlo Guarino",
+    date: [2022, 01, 12],
+    text:
+      "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
+    image: "https://unsplash.it/600/300?image=190",
+    likes: 0,
+  },
 ];
 
 function templatePost(post) {
   let avatarAuthor;
+  let countLikes = 0;
   if (post.icon === null) {
     let initials = post.name.match(/\b\w/g) || [];
     initials = (
@@ -46,6 +57,11 @@ function templatePost(post) {
     avatarAuthor = `<p class="profile-pic">${initials}</p>`;
   } else {
     avatarAuthor = `<img class="profile-pic" src=${post.icon} alt=${post.name}>`;
+  }
+  if (post.likes === 0) {
+    countLikes = `<span id="first-like-${post.id}">Puoi essere il primo Like!!!</span>`;
+  } else {
+    countLikes = `Piace a <b id="like-counter-${post.id}" class="js-likes-counter">${post.likes}</b> persone`;
   }
   const template = `
     <div class="post">
@@ -73,7 +89,7 @@ function templatePost(post) {
                 </a>
             </div>
             <div class="likes__counter">
-                Piace a <b id="like-counter-${post.id}" class="js-likes-counter">${post.likes}</b> persone
+                ${countLikes}
             </div>
         </div> 
     </div>            
@@ -89,15 +105,16 @@ function displayPosts(container, postsList) {
   }
   for (let i = 0; i < postsList.length; i++) {
     const likeBtn = document.getElementById(`${postsList[i].id}`);
+    const firstLike = document.getElementById(`first-like-${postsList[i].id}`);
     const likeCount = document.getElementById(
       `like-counter-${postsList[i].id}`
     );
 
-    clickLikes(likeBtn, postsList[i], likeCount);
+    clickLikes(likeBtn, postsList[i], firstLike, likeCount);
   }
 }
 
-function clickLikes(btn, obj, nLikes) {
+function clickLikes(btn, obj, fLike, nLikes) {
   //   console.log(btn); //DEBUG
   btn.addEventListener(
     "click",
@@ -106,18 +123,26 @@ function clickLikes(btn, obj, nLikes) {
         btn.classList.remove("like-button--liked");
         obj.likes--;
         likedPosts.splice(obj, 1);
-        nLikes.innerHTML = `${obj.likes}`;
-      } else {
+        if (nLikes!==null){
+            nLikes.innerHTML = `${obj.likes}`;
+        }
+        else{
+            fLike.innerHTML=`<span id="first-like-${obj.id}">Puoi essere il primo Like!!!</span>`;
+        }
+      }else{
         btn.classList.add("like-button--liked");
-        obj.likes++;
-        nLikes.innerHTML = `${obj.likes}`;
-        likedPosts.push(obj);
-      }
+            obj.likes++;
+            console.log(obj.likes)
+            likedPosts.push(obj);
+            if (fLike!==null){
+                fLike.innerHTML=`Piace a <b id="like-counter-${obj.id}" class="js-likes-counter">${obj.likes}</b> persone`;
+            }else{
+                nLikes.innerHTML = `${obj.likes}`;
+            }
+        }
       // console.log(btn); //DEBUG
       e.preventDefault();
-      return false;
     },
-    false
   );
 }
 
