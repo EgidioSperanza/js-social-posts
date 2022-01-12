@@ -36,53 +36,58 @@ const posts = [
   },
 ];
 
+function templatePost(post){
+    if (post.icon === null) {
+        let initials = post.name.match(/\b\w/g) || [];
+        initials = (
+          (initials.shift() || "") + (initials.pop() || "")
+        ).toUpperCase();
+        post.icon = initials;
+        avatarAuthor = `<p class="profile-pic">${initials}</p>`;
+      } else {
+        avatarAuthor = `<img class="profile-pic" src=${post.icon} alt=${post.name}>`;
+      }
+    const template = `
+    <div class="post">
+    <div class="post__header">
+        <div class="post-meta">                    
+            <div class="post-meta__icon">
+                ${avatarAuthor}                   
+            </div>
+            <div class="post-meta__data">
+                <div class="post-meta__author">${post.name}</div>
+                <div class="post-meta__time">${post.date}</div>
+            </div>                    
+        </div>
+    </div>
+    <div class="post__text">${post.text}</div>
+    <div class="post__image">
+        <img src=${post.image} alt="">
+    </div>
+    <div class="post__footer">
+        <div class="likes js-likes">
+            <div class="likes__cta">
+                <a class="like-button  js-like-button" href="#" id="${post.id}">
+                    <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                    <span class="like-button__label">Mi Piace</span>
+                </a>
+            </div>
+            <div class="likes__counter">
+                Piace a <b id="like-counter-${post.id}" class="js-likes-counter">${post.likes}</b> persone
+            </div>
+        </div> 
+    </div>            
+</div>
+    `;
+    return template;
+}
+
 function displayPosts(container, postsList) {
   for (let i = 0; i < postsList.length; i++) {
     postsList[i].date=dateConverter(postsList[i].date);
     // let [month, day, year] = postsList[i].date;
     // postsList[i].date = [day, month, year];
-    if (postsList[i].icon === null) {
-      let initials = postsList[i].name.match(/\b\w/g) || [];
-      initials = (
-        (initials.shift() || "") + (initials.pop() || "")
-      ).toUpperCase();
-      postsList[i].icon = initials;
-      avatarAuthor = `<p class="profile-pic">${initials}</p>`;
-    } else {
-      avatarAuthor = `<img class="profile-pic" src=${postsList[i].icon} alt=${postsList[i].name}>`;
-    }
-    container.innerHTML += `
-        <div class="post">
-        <div class="post__header">
-            <div class="post-meta">                    
-                <div class="post-meta__icon">
-                    ${avatarAuthor}                   
-                </div>
-                <div class="post-meta__data">
-                    <div class="post-meta__author">${postsList[i].name}</div>
-                    <div class="post-meta__time">${postsList[i].date}</div>
-                </div>                    
-            </div>
-        </div>
-        <div class="post__text">${postsList[i].text}</div>
-        <div class="post__image">
-            <img src=${postsList[i].image} alt="">
-        </div>
-        <div class="post__footer">
-            <div class="likes js-likes">
-                <div class="likes__cta">
-                    <a class="like-button  js-like-button" href="#" id="${postsList[i].id}">
-                        <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-                        <span class="like-button__label">Mi Piace</span>
-                    </a>
-                </div>
-                <div class="likes__counter">
-                    Piace a <b id="like-counter-${postsList[i].id}" class="js-likes-counter">${postsList[i].likes}</b> persone
-                </div>
-            </div> 
-        </div>            
-    </div>
-        `;
+    container.innerHTML += templatePost(postsList[i]);
   }
   for (let i = 0; i < postsList.length; i++) {
     const likeBtn = document.getElementById(`${postsList[i].id}`);
