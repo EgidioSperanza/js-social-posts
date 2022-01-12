@@ -8,7 +8,7 @@ const posts = [
     id: ++idPost,
     icon: "https://unsplash.it/300/300?image=15",
     name: "Phil Mangione",
-    date: [01, 10, 2022],
+    date: [2022, 01, 10],
     text:
       "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
     image: "https://unsplash.it/600/300?image=171",
@@ -18,7 +18,7 @@ const posts = [
     id: ++idPost,
     icon: null,
     name: "Marco Rossi",
-    date: [12, 18, 2021],
+    date: [2021, 12, 18],
     text:
       "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
     image: "https://unsplash.it/600/300?image=170",
@@ -28,7 +28,7 @@ const posts = [
     id: ++idPost,
     icon: "https://unsplash.it/300/300?image=10",
     name: "Elisa Verde",
-    date: [11, 28, 2021],
+    date: [2021, 11, 28],
     text:
       "Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.",
     image: "https://unsplash.it/600/300?image=180",
@@ -38,8 +38,9 @@ const posts = [
 
 function displayPosts(container, postsList) {
   for (let i = 0; i < postsList.length; i++) {
-    let [month, day, year] = postsList[i].date;
-    postsList[i].date = [day, month, year];
+    postsList[i].date=dateConverter(postsList[i].date);
+    // let [month, day, year] = postsList[i].date;
+    // postsList[i].date = [day, month, year];
     if (postsList[i].icon === null) {
       let initials = postsList[i].name.match(/\b\w/g) || [];
       initials = (
@@ -114,7 +115,8 @@ function clickLikes(btn, obj, nLikes) {
 }
 
 function dateConverter(americanDate) {
-  let [month, day, year] = americanDate;
-  americanDate = [day, month, year];
+  let [year, month, day] = americanDate;
+  let europeanDate = [day, month, year];
+  return europeanDate;
 }
 displayPosts(containerPosts, posts);
