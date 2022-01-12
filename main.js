@@ -1,7 +1,6 @@
 const containerPosts = document.getElementById("container");
 let likedPosts = [];
 let idPost = 0;
-let avatarAuthor;
 
 const posts = [
   {
@@ -36,18 +35,19 @@ const posts = [
   },
 ];
 
-function templatePost(post){
-    if (post.icon === null) {
-        let initials = post.name.match(/\b\w/g) || [];
-        initials = (
-          (initials.shift() || "") + (initials.pop() || "")
-        ).toUpperCase();
-        post.icon = initials;
-        avatarAuthor = `<p class="profile-pic">${initials}</p>`;
-      } else {
-        avatarAuthor = `<img class="profile-pic" src=${post.icon} alt=${post.name}>`;
-      }
-    const template = `
+function templatePost(post) {
+  let avatarAuthor;
+  if (post.icon === null) {
+    let initials = post.name.match(/\b\w/g) || [];
+    initials = (
+      (initials.shift() || "") + (initials.pop() || "")
+    ).toUpperCase();
+    post.icon = initials;
+    avatarAuthor = `<p class="profile-pic">${initials}</p>`;
+  } else {
+    avatarAuthor = `<img class="profile-pic" src=${post.icon} alt=${post.name}>`;
+  }
+  const template = `
     <div class="post">
     <div class="post__header">
         <div class="post-meta">                    
@@ -79,14 +79,12 @@ function templatePost(post){
     </div>            
 </div>
     `;
-    return template;
+  return template;
 }
 
 function displayPosts(container, postsList) {
   for (let i = 0; i < postsList.length; i++) {
-    postsList[i].date=dateConverter(postsList[i].date);
-    // let [month, day, year] = postsList[i].date;
-    // postsList[i].date = [day, month, year];
+    postsList[i].date = dateConverter(postsList[i].date);
     container.innerHTML += templatePost(postsList[i]);
   }
   for (let i = 0; i < postsList.length; i++) {
@@ -101,22 +99,26 @@ function displayPosts(container, postsList) {
 
 function clickLikes(btn, obj, nLikes) {
   //   console.log(btn); //DEBUG
-  btn.addEventListener("click", function (e) {
-    if (btn.classList.contains("like-button--liked")) {
-      btn.classList.remove("like-button--liked");
-      obj.likes--;
-      likedPosts.splice(obj, 1);
-      nLikes.innerHTML = `${obj.likes}`;
-    } else {
-      btn.classList.add("like-button--liked");
-      obj.likes++;
-      nLikes.innerHTML = `${obj.likes}`;
-      likedPosts.push(obj);
-    }
-    // console.log(btn); //DEBUG
-    e.preventDefault();
-    return false;
-    }, false);
+  btn.addEventListener(
+    "click",
+    function (e) {
+      if (btn.classList.contains("like-button--liked")) {
+        btn.classList.remove("like-button--liked");
+        obj.likes--;
+        likedPosts.splice(obj, 1);
+        nLikes.innerHTML = `${obj.likes}`;
+      } else {
+        btn.classList.add("like-button--liked");
+        obj.likes++;
+        nLikes.innerHTML = `${obj.likes}`;
+        likedPosts.push(obj);
+      }
+      // console.log(btn); //DEBUG
+      e.preventDefault();
+      return false;
+    },
+    false
+  );
 }
 
 function dateConverter(americanDate) {
